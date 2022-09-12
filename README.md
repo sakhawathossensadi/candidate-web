@@ -11,6 +11,10 @@ Now, run the command
 
 go to src->axios folder axiosService.js file and set client_secret value from the database 'oauth_clients' table second row secret column value
 
+For run the project the command
+
+    yarn start
+
 Run command for build the project
 
     yarn build
