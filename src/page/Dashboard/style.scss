@@ -1,0 +1,102 @@
+$list-grid-template: 250px 250px 250px .8fr 1fr 150px;
+
+.dashboard-topbar {
+    height: 100px;
+    background-color: azure;
+    display: flex;
+
+    &-title {
+        width: 50%;
+
+        &-h1 {
+            float: right;
+            text-align: center;
+            margin-top: 20px;
+        }
+    }
+
+    &-profile {
+        width: 50%;
+
+        &-style {
+            display: flex;
+            gap: 20px;
+            margin: 0px 0px 0px 60%;
+
+            &-name {
+                margin-top: 15px;
+            }
+
+            &-button {
+
+                &-logout {
+                    margin-top: 20px;
+                }
+            }
+        }
+
+
+    }
+}
+
+.candidate-list {
+    margin-top: 20px;
+
+    &-header {
+        display: grid;
+        grid-template-columns: $list-grid-template;
+        padding-left: 35px;
+        align-items: flex-start;
+        margin-bottom: 20px;
+    }
+
+    &-body {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding-left: 20px;
+        padding-right: 20px;
+
+        &-item {
+            display: grid;
+            grid-template-columns: $list-grid-template;
+            background: #F5F5F5;
+            height: 70px;
+            border-radius: 5px;
+            padding-left: 18px;
+            padding-right: 18px;
+            align-items: center;
+            text-align: center;
+
+            &-btn {
+                padding: 5px 20px;
+                border-radius: 20px;
+                height: auto;
+            }
+
+            &-email {
+                text-align: start;
+            }
+
+            &-cv {
+                &-button {
+                    float: left;
+                }
+            }
+
+            &-details {
+                &-button {
+                    float: left;
+                }
+            }
+
+            &-username {
+                text-align: left;
+            }
+        }
+    }
+
+    &-select-action {
+        float: left;
+    }
+}
