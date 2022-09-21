@@ -5,6 +5,7 @@ import { Form, Button, Input } from "antd";
 import { axiosService } from "../../axios/axiosService";
 import { BASE_URL } from "../../service";
 import { useNavigate } from "react-router-dom";
+import Candidate from '../../api/candidate/request';
 
 const Registration = () => {
 
@@ -22,8 +23,8 @@ const Registration = () => {
         console.log("hello");
 
         try {
-            const res = await axiosService(BASE_URL+'/candidate/register', values, 'POST');
-            console.log('data', res.data);
+            const res = await Candidate.candidateRegistration(values);
+            console.log('registration res', res);
 
             if (res) {
                 console.log("success");
@@ -38,7 +39,7 @@ const Registration = () => {
         console.log('Failed:', errorInfo);
     };
 
-    const signIn = () => {
+    const logIn = () => {
       navigate('/login');
     }
 
@@ -50,7 +51,7 @@ const Registration = () => {
             </div>
             <div className="header-button">
                 <Button type="primary"
-                    onClick={() => signIn()}
+                    onClick={() => logIn()}
                     className='header-button-login'
                     >
                         <span>Log in</span>
