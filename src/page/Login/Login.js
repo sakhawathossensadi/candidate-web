@@ -6,31 +6,27 @@ import { BASE_URL } from '../../service';
 import { axiosService } from '../../axios/axiosService';
 import { Router, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
+import Auth from '../../api/authenticate/request';
+import { useRedirect } from '../../services/RedirectHook';
 
 const Login = () => {
 
     const navigate = useNavigate();
 
-    useEffect(()=> {
-        if(localStorage.getItem('access_token')) {
-         navigate('/dashboard');
-        }
-    }, [])
+    // useRedirect();
 
   const onFinish = async (values) => {
     console.log('Success:', values);
 
     try {
-        const res = await axiosService(BASE_URL+'/oauth/token', values, 'POST')
-        console.log('data', res.data);
-        
-        if(res.data.access_token) {
-            localStorage.setItem('access_token', res.data.access_token);
-            navigate('/dashboard');  
-        } else {
-                throw Error('password or username incorrect');
-            
+        const response = await Auth.login(values);
+
+        if (response.access_token) {
+          localStorage.setItem('access_token', response.access_token);
+
+          navigate('/dashboard');
         }
+
     } catch(e) {
         console.log(e);
     }
@@ -42,62 +38,72 @@ const Login = () => {
     console.log('Failed:', errorInfo);
   };
 
+  const registration = () => {
+    navigate('/');
+  }
+
 
   return (
-    <div className='center'>
+    <div>
+      <div className="header">
+            <div className="header-title">
+                <h1 className="header-title-h1">Talent Hiring</h1>
+            </div>
+            <div className="header-button">
+                <Button type="primary"
+                    onClick={() => registration()}
+                    className='header-button-login'
+                    >
+                        <span>Registration</span>
+                </Button>
+            </div>
+        </div>
+      <header className="App-header">
+        <Form
+          autoComplete="off"
+          labelCol={{ span: 10 }}
+          wrapperCol={{ span: 14 }}
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
+        >
+          <Form.Item
+            label="Email"
+            name="username"
+            rules={[
+              {
+                required: true,
+                message: 'Please input your email!',
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
 
-    <Form
-      name="basic"
-      labelCol={{
-        span: 8,
-      }}
-      wrapperCol={{
-        span: 16,
-      }}
-      initialValues={{
-        remember: true,
-      }}
-      onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
-      autoComplete="off"
-    >
-      <Form.Item
-        label="Email"
-        name="username"
-        rules={[
-          {
-            required: true,
-            message: 'Please input your email!',
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
+          <Form.Item
+            label="Password"
+            name="password"
+            rules={[
+              {
+                required: true,
+                message: 'Please input your password!',
+              },
+            ]}
+          >
+            <Input.Password />
+          </Form.Item>
 
-      <Form.Item
-        label="Password"
-        name="password"
-        rules={[
-          {
-            required: true,
-            message: 'Please input your password!',
-          },
-        ]}
-      >
-        <Input.Password />
-      </Form.Item>
-
-      <Form.Item
-        wrapperCol={{
-          offset: 8,
-          span: 16,
-        }}
-      >
-        <Button type="primary" htmlType="submit">
-          Login
-        </Button>
-      </Form.Item>
-    </Form>
+          <Form.Item
+            wrapperCol={{
+              offset: 8,
+              span: 16,
+            }}
+          >
+            <Button type="primary" htmlType="submit">
+              Login
+            </Button>
+          </Form.Item>
+        </Form>
+      </header>
     </div>
   );
 };
