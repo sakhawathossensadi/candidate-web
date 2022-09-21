@@ -3,7 +3,7 @@ import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Registration from './page/Registration/Registration';
 import Login from './page/Login/Login';
-// import Dashboard from './page/Dashboard/Dashboard';
+import Dashboard from './page/Dashboard/Dashboard';
 
 
 function App() {
@@ -12,7 +12,7 @@ function App() {
       <Routes>
         <Route index element={<Registration />} />
         <Route path="/login" element={<Login />}/>
-        {/* <Route path="/dashboard" element={<Dashboard />}/> */}
+        <Route path="/dashboard" element={<Dashboard />}/>
     </Routes>
   </BrowserRouter>
   );
