@@ -11,8 +11,6 @@ export const axioPost = async (
     authorizedToken,
 ) => {
     const token = authorizedToken ? authorizedToken : getAuthToken();
-    console.log("post token : ",token);
-    console.log('url : ',url);
     const config = {
         headers: {
             Accept: `application/json`,
@@ -29,7 +27,36 @@ export const axioPost = async (
     }
 
     const response = await axios.post(url, values, config);
-    console.log('post response');
+    // console.log('post response');
+
+    return await response;
+}
+
+export const axioGet = async (
+    url,
+    params,
+    authorizedToken,
+) => {
+    const token = authorizedToken ? authorizedToken : getAuthToken();
+    const config = {
+        headers: {
+            Accept: `application/json`,
+            Authorization: `Bearer ${token}`,
+        },
+    }
+
+    console.log('profile url : ',url);
+
+    const values = {
+        ...params,
+        grant_type :  'password',
+        client_id : 2,
+        client_secret : 'dfAuvgguMDS7U7MovyArA7QXyL97U7dG2UzEW9NH',
+        scope : '*',
+    }
+
+    const response = await axios.get(url, {...values, ...config});
+    console.log('axio get : ',response);
 
     return await response;
 }
@@ -42,19 +69,17 @@ export const axiosService = async (
     headers = null,
 ) => {
     let response;
-    console.log("inside axiosService");
-    console.log("type , ",type);
-    console.log('axioservice url',url);
     try {
         if (type === POST) {
             console.log("inside post")
             response = await axioPost(url, params, authorizedToken);
         } 
-        // else if (type === DELETE) {
-        //     response = await axioDelete(url, authorizedToken);
-        // } else {
-        //     response = await axioGet(url, params, authorizedToken);
-        // }
+        else if (type === DELETE) {
+            // response = await axioDelete(url, authorizedToken);
+        } else {
+            console.log("else");
+            response = await axioGet(url, params, authorizedToken);
+        }
         return await response;
     } catch (e) {
         throw e;
