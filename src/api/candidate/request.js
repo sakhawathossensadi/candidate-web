@@ -1,14 +1,12 @@
-import { SERVER_CANDIDATE_REGISTRATION_ENDPOINT } from '../../config/endpoints';
+import { 
+    SERVER_CANDIDATE_REGISTRATION_ENDPOINT, 
+    SERVER_TALENT_CANDIDATE_PROFILE_ENDPOINT } from '../../config/endpoints';
 import { axiosService, GET, POST, DELETE } from '../../services/axiosService';
 import { getAuthToken } from '../../services/authentication';
 
 class Candidate {
     candidateRegistration = async (values) => {
         const token = getAuthToken();
-        console.log("token : ",token);
-        console.log("candidate data : ",values);
-        console.log("SERVER_CANDIDATE_REGISTRATION_ENDPOINT : ",SERVER_CANDIDATE_REGISTRATION_ENDPOINT);
-        console.log("process : ",process.env);
 
         const response = await axiosService(
             POST,
@@ -21,6 +19,22 @@ class Candidate {
 
         if (response) {
             console.log("inside if block");
+            return response.data;
+        }
+    }
+
+    candidateProfile = async () => {
+        const token = getAuthToken();
+        console.log('candidate profile token : ',token);
+
+        const response = await axiosService(
+            GET,
+            SERVER_TALENT_CANDIDATE_PROFILE_ENDPOINT,
+            {},
+            token
+        )
+
+        if (response) {
             return response.data;
         }
     }
