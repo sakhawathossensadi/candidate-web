@@ -5,6 +5,7 @@ import './style.scss'
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useRedirect } from '../../services/RedirectHook';
+import Candidate from '../../api/candidate/request';
 
 
 function Dashboard () {
@@ -12,7 +13,7 @@ function Dashboard () {
     const navigate = useNavigate();
 
     const [candidateName, setCandidateName] = useState('');
-    const [candidates, setCandidates] = useState([]);
+    const [candidate, setCandidate] = useState();
     const [page, setPage] = useState(1);
     const [total, setTotal] = useState(0);
     const [fromNumber, setFromNumber] = useState(0);
@@ -25,30 +26,19 @@ function Dashboard () {
 
     useRedirect();
 
-    const params = {
-        page: page
-    };
+    useEffect(() => {
+        fetchCandidate();
+    },[]);
 
-    const dummy = {};
-
-    // useEffect(() => {
-    //     if(!localStorage.getItem('access_token')) {
-    //         navigate('/');
-    //        }
-    // })
-
-    // useEffect(() => {
-    //     fetchCandidate();
-    // },[]);
-
-    // const fetchCandidate = async () => {
-    //     try {
-    //         const res = await axiosService(BASE_URL+SERVER_TALENT_ADMIN_PROFILE_ENDPOINT, dummy, 'GET');
-    //         setAdminName(res.data.name);
-    //     } catch (e) {
-    //         console.log(e)
-    //     }
-    // }
+    const fetchCandidate = async () => {
+        try {
+            const response = await Candidate.candidateProfile();
+            
+            setCandidate(response.data);
+        } catch (e) {
+            console.log(e)
+        }
+    }
 
     // useEffect(() => {
     //     fetchCandidates();
@@ -179,7 +169,7 @@ function Dashboard () {
                     <div className="dashboard-topbar-profile-style">
                         <div className='dashboard-topbar-profile-style-name'>
                             <span className='dashboard-topbar-profile-style-name-span'>
-                                Hello, {"adminName"}
+                                Hello, {candidate.name}
                             </span>
                             <Avatar size={42}  icon={<UserOutlined />} />
                         </div>
